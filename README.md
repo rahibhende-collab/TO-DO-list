@@ -81,7 +81,7 @@ Through this project, I practiced:
 
 ## 👩‍💻 Author
 
-**Your Name**
+**Rahi Bhende**
 
 MCA Student
 
