@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}My Tasks{% endblock %}
+{% block content %}
+<section class="hero-panel mb-4">
+  <div>
+    <div class="eyebrow">YOUR PERSONAL WORKSPACE</div>
+    <h1>Make room for <span>what matters.</span></h1>
+    <p>Capture your tasks, focus your energy, and keep moving forward.</p>
+  </div>
+  <div class="hero-icon" aria-hidden="true">✦</div>
+</section>
+
+<section class="row g-3 mb-4">
+  <div class="col-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-label">Total tasks</div>
+      <div class="stat-value">{{ stats.total or 0 }}</div>
+      <div class="stat-note">All your to-dos</div>
+    </div>
+  </div>
+  <div class="col-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-label">Pending</div>
+      <div class="stat-value">{{ stats.pending or 0 }}</div>
+      <div class="stat-note"><span class="dot dot-blue"></span> Still in progress</div>
+    </div>
+  </div>
+  <div class="col-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-label">Completed</div>
+      <div class="stat-value">{{ stats.completed or 0 }}</div>
+      <div class="stat-note"><span class="dot dot-green"></span> Nicely done</div>
+    </div>
+  </div>
+  <div class="col-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-label">Overdue</div>
+      <div class="stat-value">{{ stats.overdue or 0 }}</div>
+      <div class="stat-note"><span class="dot dot-orange"></span> Needs attention</div>
+    </div>
+  </div>
+</section>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <section class="panel add-panel">
+      <div class="panel-heading">
+        <div>
+          <div class="eyebrow">GET IT OUT OF YOUR HEAD</div>
+          <h2>Add a task</h2>
+        </div>
+        <span class="heading-icon">＋</span>
+      </div>
+      <form action="{{ url_for('add_task') }}" method="post">
+        <div class="mb-3">
+          <label class="form-label" for="title">Task title *</label>
+          <input class="form-control" id="title" name="title" maxlength="160" placeholder="e.g. Finish project proposal" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="description">Description</label>
+          <textarea class="form-control" id="description" name="description" rows="3" maxlength="1000" placeholder="Add a few details (optional)"></textarea>
+        </div>
+        <div class="row g-2">
+          <div class="col-6 mb-3">
+            <label class="form-label" for="category">Category</label>
+            <select class="form-select" id="category" name="category">
+              <option>Personal</option><option>Work</option><option>Study</option><option>Shopping</option><option>Health</option>
+            </select>
+          </div>
+          <div class="col-6 mb-3">
+            <label class="form-label" for="priority">Priority</label>
+            <select class="form-select" id="priority" name="priority">
+              <option>Low</option><option selected>Medium</option><option>High</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="form-label" for="due_date">Due date</label>
+          <input class="form-control" type="date" id="due_date" name="due_date">
+        </div>
+        <button class="btn btn-primary w-100 py-2" type="submit">＋ Add task</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="col-lg-8">
+    <section class="panel task-panel">
+      <div class="panel-heading task-heading">
+        <div>
+          <div class="eyebrow">YOUR DAY, ORGANIZED</div>
+          <h2>Task list <span class="count-pill">{{ tasks|length }}</span></h2>
+        </div>
+        <form action="{{ url_for('clear_completed') }}" method="post" onsubmit="return confirm('Delete all completed tasks?');">
+          <button class="btn btn-outline-secondary btn-sm" type="submit">Clear completed</button>
+        </form>
+      </div>
+
+      <form class="filter-bar" method="get" action="{{ url_for('index') }}">
+        <div class="filter-tabs">
+          <a class="{{ 'active' if current_status == 'all' else '' }}" href="{{ url_for('index', status='all', category=current_category, q=search) }}">All</a>
+          <a class="{{ 'active' if current_status == 'pending' else '' }}" href="{{ url_for('index', status='pending', category=current_category, q=search) }}">Pending</a>
+          <a class="{{ 'active' if current_status == 'completed' else '' }}" href="{{ url_for('index', status='completed', category=current_category, q=search) }}">Completed</a>
+        </div>
+        <input type="hidden" name="status" value="{{ current_status }}">
+        <select class="form-select form-select-sm category-filter" name="category" aria-label="Filter category">
+          <option value="all" {{ 'selected' if current_category == 'all' else '' }}>All categories</option>
+          {% for item in categories %}
+          <option value="{{ item.category }}" {{ 'selected' if current_category == item.category else '' }}>{{ item.category }}</option>
+          {% endfor %}
+        </select>
+        <div class="search-box">
+          <input type="search" name="q" class="form-control form-control-sm" placeholder="Search tasks..." value="{{ search }}">
+          <button class="btn btn-sm btn-light" type="submit" aria-label="Search">⌕</button>
+        </div>
+      </form>
+
+      {% if tasks %}
+        <div class="task-list">
+          {% for task in tasks %}
+          <article class="task-item {{ 'is-complete' if task.completed else '' }}">
+            <form action="{{ url_for('toggle_task', task_id=task.id) }}" method="post" class="toggle-form">
+              <button class="task-check {{ 'checked' if task.completed else '' }}" type="submit" aria-label="{{ 'Mark as pending' if task.completed else 'Mark as completed' }}">
+                {% if task.completed %}✓{% endif %}
+              </button>
+            </form>
+            <div class="task-main">
+              <div class="task-title-row">
+                <h3>{{ task.title }}</h3>
+                <span class="priority priority-{{ task.priority|lower }}">{{ task.priority }}</span>
+              </div>
+              {% if task.description %}<p class="task-description">{{ task.description }}</p>{% endif %}
+              <div class="task-meta">
+                <span class="category-tag">{{ task.category }}</span>
+                {% if task.due_date %}
+                  <span class="{{ 'due-over' if task.due_date < today and not task.completed else 'due-date' }}">▦ {{ task.due_date }}{% if task.due_date < today and not task.completed %} · Overdue{% endif %}</span>
+                {% endif %}
+              </div>
+            </div>
+            <div class="task-actions">
+              <a class="action-link" href="{{ url_for('edit_task', task_id=task.id) }}" title="Edit task" aria-label="Edit task">✎</a>
+              <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post" onsubmit="return confirm('Delete this task?');">
+                <button class="action-link delete-link" type="submit" title="Delete task" aria-label="Delete task">×</button>
+              </form>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <div class="empty-icon">✓</div>
+          <h3>Nothing on this list yet</h3>
+          <p>Add a task or adjust your filters. Your next win starts here.</p>
+        </div>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}
