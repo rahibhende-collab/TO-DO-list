@@ -1,92 +1,119 @@
-# 📝 To-Do List Application
+# ✅ To-Do List Web Application
 
-A simple and user-friendly To-Do List web application that helps users manage their daily tasks efficiently.
+A simple and user-friendly To-Do List web application built using **Python, Flask, HTML, and CSS**. This project helps users organize daily tasks through a clean web interface.
 
 ## 🚀 Features
 
-* ➕ Add new tasks
-* ✅ Mark tasks as completed
-* ✏️ Edit existing tasks
-* 🗑️ Delete tasks
-* 📋 View all tasks
-* 🔍 Filter completed and pending tasks
-* 💾 Store tasks locally in the browser
-* 📱 Simple and responsive user interface
+- ➕ Add new tasks
+- 📋 View all tasks
+- ✅ Mark tasks as completed
+- 🗑️ Delete tasks
+- 🎨 Clean and responsive user interface using CSS
+- ⚡ Lightweight web application powered by Flask
+
+*Note: Keep only the features implemented in your actual application.*
 
 ## 🛠️ Technologies Used
 
-* HTML5
-* CSS3
-* JavaScript
-* Local Storage
+- **Python** – Application logic
+- **Flask** – Python web framework
+- **HTML5** – Web page structure
+- **CSS3** – Styling and layout
+- **Jinja2** – Dynamic HTML templating through Flask
 
 ## 📂 Project Structure
 
 ```text
-to-do-list/
-│
-├── index.html
-├── style.css
-├── script.js
-├── README.md
-└── screenshots/
-    └── .gitkeep
+TO-DO-list/
+├── app.py
+├── templates/
+│   └── index.html
+├── static/
+│   └── style.css
+├── requirements.txt
+└── README.md
 ```
 
-## ⚙️ How to Run
+*The folder structure may vary depending on your implementation.*
 
-1. Clone the repository:
+## ⚙️ Installation and Setup
+
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/to-do-list.git
+git clone https://github.com/rahibhende-collab/TO-DO-list.git
 ```
 
-2. Open the project folder.
+### 2. Navigate to the Project Directory
 
-3. Open `index.html` in your web browser.
+```bash
+cd TO-DO-list
+```
 
-That's it! No server or database is required.
+### 3. Create a Virtual Environment (Recommended)
 
-## 💡 How It Works
+```bash
+python -m venv venv
+```
 
-1. Enter a task in the input field.
-2. Click the **Add Task** button.
-3. The task will appear in the task list.
-4. Mark the task as completed when finished.
-5. Edit or delete tasks whenever required.
-6. Tasks are stored using browser Local Storage, so they remain available after refreshing the page.
+Activate it on Windows:
 
-## 🎯 Learning Outcomes
+```powershell
+.\venv\Scripts\Activate.ps1
+```
 
-Through this project, I practiced:
+### 4. Install Dependencies
 
-* HTML page structure
-* CSS styling and responsive design
-* JavaScript DOM manipulation
-* Event handling
-* CRUD operations
-* Browser Local Storage
-* Basic Git and GitHub workflow
+```bash
+pip install flask
+```
 
-## 🔮 Future Improvements
+Alternatively, if a `requirements.txt` file is provided:
 
-* User authentication
-* Task categories
-* Due dates and reminders
-* Priority levels
-* Dark mode
-* Search functionality
-* Database integration
-* Cloud synchronization
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Run the Application
+
+```bash
+python app.py
+```
+
+### 6. Open in Your Browser
+
+Visit:
+
+```text
+http://127.0.0.1:5000
+```
+
+## 🎯 Project Objective
+
+The objective of this project is to develop a practical task management application while learning Python programming, Flask web development, HTML templating, and CSS-based user interface design.
+
+## 📚 Learning Outcomes
+
+- Understanding Flask routes and request handling
+- Building dynamic web pages with HTML and Jinja2
+- Styling web applications using CSS
+- Connecting frontend forms with Python backend logic
+- Running a local web application
+
+## 🔮 Future Enhancements
+
+- Add database integration using SQLite
+- Implement task editing and priority levels
+- Add task deadlines and reminders
+- Improve mobile responsiveness
+- Introduce user authentication
 
 ## 👩‍💻 Author
 
-**Rahi Bhende**
+**Rahi Sureshrao Bhende**
 
-MCA Student
+- GitHub: [rahibhende-collab](https://github.com/rahibhende-collab)
 
-GitHub: https://github.com/YOUR-USERNAME
+---
 
-## ⭐ Support
-
-If you find this project useful, consider giving the repository a ⭐ on GitHub.
+⭐ If you find this project useful, feel free to explore the repository!
